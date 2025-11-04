@@ -2,6 +2,8 @@ import { Action, ActionPanel, Clipboard, Form, Icon, Toast, showToast } from "@r
 import { useCallback, useRef, useState } from "react";
 import { sendTextMessage } from "./lib/api";
 import { usePreferencesCheck } from "./lib/usePreferencesCheck";
+import { useInstances } from "./lib/useInstances";
+import { InstanceDropdown } from "./components/InstanceDropdown";
 
 type Values = {
   instanceName: string;
@@ -12,6 +14,7 @@ type Values = {
 
 export default function Command() {
   const { isValid, isChecking } = usePreferencesCheck();
+  const { instances, isLoading: loadingInstances } = useInstances(isValid);
   const [isLoading, setIsLoading] = useState(false);
   const [report, setReport] = useState<string>("");
   const isProcessingRef = useRef(false);
@@ -83,7 +86,7 @@ export default function Command() {
   return (
     <Form
       navigationTitle="Send Bulk WhatsApp Messages"
-      isLoading={isLoading}
+      isLoading={isLoading || loadingInstances}
       actions={
         <ActionPanel>
           <Action.SubmitForm title="Send Bulk" icon={Icon.Airplane} onSubmit={handleSubmit} />
@@ -98,10 +101,10 @@ export default function Command() {
         </ActionPanel>
       }
     >
-      <Form.TextField id="instanceName" title="Instance Name" placeholder="e.g. my-business" autoFocus />
+      <InstanceDropdown instances={instances} isLoading={loadingInstances} />
       <Form.TextArea id="numbers" title="Numbers" placeholder="One per line or comma-separated" />
       <Form.TextArea id="text" title="Message" placeholder="Type your message" />
-      <Form.TextField id="delayMs" title="Delay (ms) between messages" placeholder="e.g. 800" />
+      <Form.TextField id="delayMs" title="Delay (ms) between messages" placeholder="e.g. 800" defaultValue="1000" />
       {report ? <Form.TextArea id="report" title="Report" value={report} enableMarkdown={false} /> : null}
     </Form>
   );
