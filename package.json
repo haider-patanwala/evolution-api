@@ -18,17 +18,126 @@
   "license": "MIT",
   "commands": [
     {
+      "name": "settings",
+      "title": "Settings & Status",
+      "subtitle": "View configuration and status",
+      "description": "Check Evolution API settings and connection status",
+      "mode": "view"
+    },
+    {
       "name": "create-instance",
       "title": "Create Instance",
-      "subtitle": "Creates new Instance",
-      "description": "",
+      "subtitle": "Create a new WhatsApp instance",
+      "description": "Create a new Evolution API WhatsApp instance",
+      "mode": "view"
+    },
+    {
+      "name": "manage-instances",
+      "title": "Manage Instances",
+      "subtitle": "View and manage instances",
+      "description": "List, connect, restart, logout, and delete instances",
+      "mode": "view"
+    },
+    {
+      "name": "send-message",
+      "title": "Send Message",
+      "subtitle": "Send a text message",
+      "description": "Send a single WhatsApp text message",
       "mode": "view"
     },
     {
       "name": "send-bulk-message",
-      "title": "Send Bulk Message",
-      "description": "",
+      "title": "Send Bulk Messages",
+      "subtitle": "Send messages to multiple recipients",
+      "description": "Send text messages to multiple numbers with report",
       "mode": "view"
+    },
+    {
+      "name": "send-media",
+      "title": "Send Media",
+      "subtitle": "Send media files",
+      "description": "Send image, video, audio, or document files",
+      "mode": "view"
+    },
+    {
+      "name": "send-status",
+      "title": "Send Status/Stories",
+      "subtitle": "Send WhatsApp status",
+      "description": "Send status updates or stories",
+      "mode": "view"
+    },
+    {
+      "name": "send-sticker",
+      "title": "Send Sticker",
+      "subtitle": "Send a sticker",
+      "description": "Send a sticker via URL or base64",
+      "mode": "view"
+    },
+    {
+      "name": "send-location",
+      "title": "Send Location",
+      "subtitle": "Share a location",
+      "description": "Send location coordinates with name and address",
+      "mode": "view"
+    },
+    {
+      "name": "send-contact",
+      "title": "Send Contact",
+      "subtitle": "Share a contact",
+      "description": "Send contact card with details",
+      "mode": "view"
+    },
+    {
+      "name": "send-reaction",
+      "title": "Send Reaction",
+      "subtitle": "React to a message",
+      "description": "Send emoji reaction to a message",
+      "mode": "view"
+    },
+    {
+      "name": "send-poll",
+      "title": "Send Poll",
+      "subtitle": "Create a poll",
+      "description": "Send an interactive poll with options",
+      "mode": "view"
+    },
+    {
+      "name": "send-list",
+      "title": "Send Interactive List",
+      "subtitle": "Send a list message",
+      "description": "Send an interactive list with sections and rows",
+      "mode": "view"
+    },
+    {
+      "name": "check-whatsapp-numbers",
+      "title": "Check WhatsApp Numbers",
+      "subtitle": "Verify numbers",
+      "description": "Check if numbers are registered on WhatsApp",
+      "mode": "view"
+    },
+    {
+      "name": "set-presence",
+      "title": "Set Presence",
+      "subtitle": "Set online status",
+      "description": "Set instance presence to available or unavailable",
+      "mode": "view"
+    }
+  ],
+  "preferences": [
+    {
+      "name": "baseUrl",
+      "type": "textfield",
+      "title": "Evolution API Base URL",
+      "description": "e.g. http://localhost:8080",
+      "default": "http://localhost:8080",
+      "required": true
+    },
+    {
+      "name": "apiKey",
+      "type": "password",
+      "title": "API Key",
+      "description": "Set AUTHENTICATION_API_KEY you used to start Evolution API",
+      "required": true
     }
   ],
   "dependencies": {
