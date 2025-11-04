@@ -55,7 +55,12 @@ All commands automatically verify that your Evolution API settings are configure
 
 ### Messaging
 - **Send Message**: Send a single text message to a recipient.
-- **Send Bulk Messages**: Send text messages to multiple recipients (comma or newline separated) with configurable delay and CSV report generation.
+- **Send Bulk Messages**: Send text messages to multiple recipients (comma or newline separated) with:
+  - **Optional pre-send validation** - Automatically validate and skip invalid numbers before sending
+  - Automatic duplicate removal
+  - Configurable delay between messages
+  - CSV report generation showing sent/failed/skipped status
+  - Link preview option
 - **Send Media**: Send images, videos, audio, or documents with optional captions.
 - **Send Status/Stories**: Post WhatsApp status/stories (text, image, video, audio) to all contacts or specific recipients.
 - **Send Sticker**: Send stickers via URL or base64.

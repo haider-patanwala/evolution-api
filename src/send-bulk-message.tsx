@@ -1,6 +1,6 @@
 import { Action, ActionPanel, Clipboard, Form, Icon, Toast, showToast } from "@raycast/api";
 import { useCallback, useRef, useState } from "react";
-import { sendTextMessage } from "./lib/api";
+import { sendTextMessage, checkWhatsAppNumbers } from "./lib/api";
 import { usePreferencesCheck } from "./lib/usePreferencesCheck";
 import { useInstances } from "./lib/useInstances";
 import { InstanceDropdown } from "./components/InstanceDropdown";
@@ -11,6 +11,13 @@ type Values = {
   text: string;
   delayMs?: string;
   linkPreview: boolean;
+  validateBeforeSend: boolean;
+};
+
+type NumberResult = {
+  number: string;
+  exists: boolean;
+  jid?: string;
 };
 
 export default function Command() {
@@ -32,7 +39,7 @@ export default function Command() {
 
     try {
       const delay = Math.max(0, Number(values.delayMs ?? 0));
-      const numbers = values.numbers
+      let numbers = values.numbers
         .split(/\n|,/) // split by newline or comma
         .map((s) => s.trim())
         .filter(Boolean);
@@ -42,12 +49,89 @@ export default function Command() {
         return;
       }
 
+      // Remove duplicates
+      const uniqueNumbers = Array.from(new Set(numbers));
+      const duplicateCount = numbers.length - uniqueNumbers.length;
+      numbers = uniqueNumbers;
+
+      if (duplicateCount > 0) {
+        console.log(`Removed ${duplicateCount} duplicate number(s)`);
+      }
+
       const lines: string[] = [];
       let success = 0;
       let failed = 0;
+      let skipped = 0;
+      let validatedNumbers = numbers;
 
-      for (let i = 0; i < numbers.length; i++) {
-        const num = numbers[i];
+      // Validate numbers if checkbox is enabled
+      if (values.validateBeforeSend) {
+        await showToast({
+          style: Toast.Style.Animated,
+          title: "Validating numbers...",
+          message: `Checking ${numbers.length} number${numbers.length !== 1 ? "s" : ""}`,
+        });
+
+        try {
+          const validationResponse = (await checkWhatsAppNumbers(values.instanceName, numbers)) as NumberResult[];
+
+          const validNumbers: string[] = [];
+          const invalidNumbers: string[] = [];
+
+          if (Array.isArray(validationResponse)) {
+            validationResponse.forEach((item) => {
+              if (item.exists) {
+                validNumbers.push(item.number);
+              } else {
+                invalidNumbers.push(item.number);
+                lines.push(`${item.number},SKIPPED,Not registered on WhatsApp`);
+              }
+            });
+          }
+
+          skipped = invalidNumbers.length;
+          validatedNumbers = validNumbers;
+
+          if (invalidNumbers.length > 0) {
+            console.log(`Skipped ${invalidNumbers.length} invalid number(s):`, invalidNumbers.join(", "));
+            await showToast({
+              style: Toast.Style.Animated,
+              title: "Validation complete",
+              message: `${validNumbers.length} valid, ${invalidNumbers.length} invalid (will be skipped)`,
+            });
+          }
+
+          if (validNumbers.length === 0) {
+            const summary = `No valid numbers found. Skipped: ${skipped}, Total: ${numbers.length}`;
+            setReport(["number,status,message", ...lines, "", summary].join("\n"));
+            await showToast({
+              style: Toast.Style.Failure,
+              title: "No valid numbers",
+              message: "All numbers are invalid",
+            });
+            return;
+          }
+        } catch (validationError) {
+          console.error("Validation failed:", validationError);
+          await showToast({
+            style: Toast.Style.Failure,
+            title: "Validation failed",
+            message: "Proceeding without validation",
+          });
+          // Continue with all numbers if validation fails
+        }
+      }
+
+      // Send messages to validated/all numbers
+      const totalToSend = validatedNumbers.length;
+      await showToast({
+        style: Toast.Style.Animated,
+        title: "Sending messages...",
+        message: `Processing ${totalToSend} number${totalToSend !== 1 ? "s" : ""}`,
+      });
+
+      for (let i = 0; i < validatedNumbers.length; i++) {
+        const num = validatedNumbers[i];
         try {
           await sendTextMessage({
             instanceName: values.instanceName,
@@ -57,21 +141,28 @@ export default function Command() {
           });
           success += 1;
           lines.push(`${num},OK`);
-          console.log(`Message ${i + 1}/${numbers.length} sent to ${num}`);
+          console.log(`Message ${i + 1}/${validatedNumbers.length} sent to ${num}`);
         } catch (e) {
           failed += 1;
           const msg = (e as { message?: string })?.message || "ERROR";
           lines.push(`${num},ERROR,${msg.replaceAll(",", " ")}`);
-          console.log(`Message ${i + 1}/${numbers.length} failed for ${num}: ${msg}`);
+          console.log(`Message ${i + 1}/${validatedNumbers.length} failed for ${num}: ${msg}`);
         }
-        if (delay > 0 && i < numbers.length - 1) {
+        if (delay > 0 && i < validatedNumbers.length - 1) {
           await new Promise((r) => setTimeout(r, delay));
         }
       }
 
-      const summary = `Sent: ${success}, Failed: ${failed}, Total: ${numbers.length}`;
+      const summary = values.validateBeforeSend
+        ? `Sent: ${success}, Failed: ${failed}, Skipped: ${skipped}, Total: ${numbers.length}`
+        : `Sent: ${success}, Failed: ${failed}, Total: ${numbers.length}`;
+
       setReport(["number,status,message", ...lines, "", summary].join("\n"));
-      await showToast({ style: failed > 0 ? Toast.Style.Failure : Toast.Style.Success, title: summary });
+      await showToast({
+        style: failed > 0 ? Toast.Style.Failure : Toast.Style.Success,
+        title: success > 0 ? "Bulk send complete" : "All messages failed",
+        message: summary,
+      });
     } catch (e) {
       const message = (e as { message?: string })?.message || "Bulk send failed";
       await showToast({ style: Toast.Style.Failure, title: "Error", message });
@@ -108,12 +199,25 @@ export default function Command() {
       }
     >
       <InstanceDropdown instances={instances} isLoading={loadingInstances} />
-      <Form.TextArea id="numbers" title="Numbers" placeholder="One per line or comma-separated" />
+      <Form.TextArea
+        id="numbers"
+        title="Numbers"
+        placeholder="One per line or comma-separated"
+        info="Duplicate numbers will be automatically removed before sending"
+      />
       <Form.TextArea id="text" title="Message" placeholder="Type your message" />
       <Form.TextField id="delayMs" title="Delay (ms) between messages" placeholder="e.g. 800" defaultValue="1000" />
 
       <Form.Separator />
       <Form.Description text="Additional Options" />
+
+      <Form.Checkbox
+        id="validateBeforeSend"
+        label="Validate Numbers Before Sending"
+        info="Check if numbers are registered on WhatsApp and skip invalid ones. This will add a validation step before sending."
+        defaultValue={true}
+        storeValue
+      />
 
       <Form.Checkbox
         id="linkPreview"
