@@ -1,10 +1,10 @@
 {
   "$schema": "https://www.raycast.com/schemas/extension.json",
-  "name": "evolution-api",
+  "name": "evolution-api-raycast-extension",
   "title": "Evolution API",
   "description": "This extension lets you interact with evolution API and helps you in WhatApp automation",
   "icon": "extension-icon.png",
-  "author": "haider_patan",
+  "author": "Haider Patanwala",
   "platforms": [
     "macOS",
     "Windows"
@@ -20,105 +20,105 @@
     {
       "name": "settings",
       "title": "Settings & Status",
-      "subtitle": "View configuration and status",
+      "subtitle": "View configuration and status - Evolution API",
       "description": "Check Evolution API settings and connection status",
       "mode": "view"
     },
     {
       "name": "create-instance",
       "title": "Create Instance",
-      "subtitle": "Create a new WhatsApp instance",
+      "subtitle": "Create a new WhatsApp instance - Evolution API",
       "description": "Create a new Evolution API WhatsApp instance",
       "mode": "view"
     },
     {
       "name": "manage-instances",
       "title": "Manage Instances",
-      "subtitle": "View and manage instances",
+      "subtitle": "View and manage instances - Evolution API",
       "description": "List, connect, restart, logout, and delete instances",
       "mode": "view"
     },
     {
       "name": "send-message",
       "title": "Send Message",
-      "subtitle": "Send a text message",
+      "subtitle": "Send a text message - Evolution API",
       "description": "Send a single WhatsApp text message",
       "mode": "view"
     },
     {
       "name": "send-bulk-message",
       "title": "Send Bulk Messages",
-      "subtitle": "Send messages to multiple recipients",
+      "subtitle": "Send messages to multiple recipients - Evolution API",
       "description": "Send text messages to multiple numbers with report",
       "mode": "view"
     },
     {
       "name": "send-media",
       "title": "Send Media",
-      "subtitle": "Send media files",
+      "subtitle": "Send media files - Evolution API",
       "description": "Send image, video, audio, or document files",
       "mode": "view"
     },
     {
       "name": "send-status",
       "title": "Send Status/Stories",
-      "subtitle": "Send WhatsApp status",
+      "subtitle": "Send WhatsApp status - Evolution API",
       "description": "Send status updates or stories",
       "mode": "view"
     },
     {
       "name": "send-sticker",
       "title": "Send Sticker",
-      "subtitle": "Send a sticker",
+      "subtitle": "Send a sticker - Evolution API",
       "description": "Send a sticker via URL or base64",
       "mode": "view"
     },
     {
       "name": "send-location",
       "title": "Send Location",
-      "subtitle": "Share a location",
+      "subtitle": "Share a location - Evolution API",
       "description": "Send location coordinates with name and address",
       "mode": "view"
     },
     {
       "name": "send-contact",
       "title": "Send Contact",
-      "subtitle": "Share a contact",
+      "subtitle": "Share a contact - Evolution API",
       "description": "Send contact card with details",
       "mode": "view"
     },
     {
       "name": "send-reaction",
       "title": "Send Reaction",
-      "subtitle": "React to a message",
+      "subtitle": "React to a message - Evolution API",
       "description": "Send emoji reaction to a message",
       "mode": "view"
     },
     {
       "name": "send-poll",
       "title": "Send Poll",
-      "subtitle": "Create a poll",
+      "subtitle": "Create a poll - Evolution API",
       "description": "Send an interactive poll with options",
       "mode": "view"
     },
     {
       "name": "send-list",
       "title": "Send Interactive List",
-      "subtitle": "Send a list message",
+      "subtitle": "Send a list message - Evolution API",
       "description": "Send an interactive list with sections and rows",
       "mode": "view"
     },
     {
       "name": "check-whatsapp-numbers",
       "title": "Check WhatsApp Numbers",
-      "subtitle": "Verify numbers",
+      "subtitle": "Verify numbers - Evolution API",
       "description": "Check if numbers are registered on WhatsApp",
       "mode": "view"
     },
     {
       "name": "set-presence",
       "title": "Set Presence",
-      "subtitle": "Set online status",
+      "subtitle": "Set online status - Evolution API",
       "description": "Set instance presence to available or unavailable",
       "mode": "view"
     }

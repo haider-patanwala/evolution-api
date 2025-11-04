@@ -2,6 +2,8 @@ import { Action, ActionPanel, Form, Icon, Toast, showToast } from "@raycast/api"
 import { useState } from "react";
 import { sendStatus } from "./lib/api";
 import { usePreferencesCheck } from "./lib/usePreferencesCheck";
+import { useInstances } from "./lib/useInstances";
+import { InstanceDropdown } from "./components/InstanceDropdown";
 
 type Values = {
   instanceName: string;
@@ -16,6 +18,7 @@ type Values = {
 
 export default function Command() {
   const { isValid, isChecking } = usePreferencesCheck();
+  const { instances, isLoading: loadingInstances } = useInstances(isValid);
   const [isLoading, setIsLoading] = useState(false);
 
   if (isChecking) return <Form isLoading={true} />;
@@ -49,14 +52,14 @@ export default function Command() {
   return (
     <Form
       navigationTitle="Send Status/Stories"
-      isLoading={isLoading}
+      isLoading={isLoading || loadingInstances}
       actions={
         <ActionPanel>
-          <Action.SubmitForm title="Send" icon={Icon.Paperplane} onSubmit={handleSubmit} />
+          <Action.SubmitForm title="Send" icon={Icon.Airplane} onSubmit={handleSubmit} />
         </ActionPanel>
       }
     >
-      <Form.TextField id="instanceName" title="Instance Name" placeholder="e.g. my-business" autoFocus />
+      <InstanceDropdown instances={instances} isLoading={loadingInstances} />
       <Form.Dropdown id="type" title="Type" defaultValue="text">
         <Form.Dropdown.Item value="text" title="Text" />
         <Form.Dropdown.Item value="image" title="Image" />

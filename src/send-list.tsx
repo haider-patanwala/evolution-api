@@ -2,6 +2,8 @@ import { Action, ActionPanel, Form, Icon, Toast, showToast } from "@raycast/api"
 import { useState } from "react";
 import { sendList } from "./lib/api";
 import { usePreferencesCheck } from "./lib/usePreferencesCheck";
+import { useInstances } from "./lib/useInstances";
+import { InstanceDropdown } from "./components/InstanceDropdown";
 
 type Values = {
   instanceName: string;
@@ -15,6 +17,7 @@ type Values = {
 
 export default function Command() {
   const { isValid, isChecking } = usePreferencesCheck();
+  const { instances, isLoading: loadingInstances } = useInstances(isValid);
   const [isLoading, setIsLoading] = useState(false);
 
   if (isChecking) return <Form isLoading={true} />;
@@ -58,14 +61,14 @@ export default function Command() {
   return (
     <Form
       navigationTitle="Send Interactive List"
-      isLoading={isLoading}
+      isLoading={isLoading || loadingInstances}
       actions={
         <ActionPanel>
-          <Action.SubmitForm title="Send" icon={Icon.Paperplane} onSubmit={handleSubmit} />
+          <Action.SubmitForm title="Send" icon={Icon.Airplane} onSubmit={handleSubmit} />
         </ActionPanel>
       }
     >
-      <Form.TextField id="instanceName" title="Instance Name" placeholder="e.g. my-business" autoFocus />
+      <InstanceDropdown instances={instances} isLoading={loadingInstances} />
       <Form.TextField id="number" title="Recipient Number" placeholder="e.g. 55999999999" />
       <Form.TextField id="title" title="List Title" placeholder="Select an option" />
       <Form.TextArea id="description" title="Description" placeholder="Please choose from the list below" />

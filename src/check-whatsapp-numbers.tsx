@@ -2,6 +2,8 @@ import { Action, ActionPanel, Clipboard, Form, Icon, Toast, showToast } from "@r
 import { useState } from "react";
 import { checkWhatsAppNumbers } from "./lib/api";
 import { usePreferencesCheck } from "./lib/usePreferencesCheck";
+import { useInstances } from "./lib/useInstances";
+import { InstanceDropdown } from "./components/InstanceDropdown";
 
 type Values = {
   instanceName: string;
@@ -10,6 +12,7 @@ type Values = {
 
 export default function Command() {
   const { isValid, isChecking } = usePreferencesCheck();
+  const { instances, isLoading: loadingInstances } = useInstances(isValid);
   const [isLoading, setIsLoading] = useState(false);
   const [result, setResult] = useState<string>("");
 
@@ -39,7 +42,7 @@ export default function Command() {
   return (
     <Form
       navigationTitle="Check WhatsApp Numbers"
-      isLoading={isLoading}
+      isLoading={isLoading || loadingInstances}
       actions={
         <ActionPanel>
           <Action.SubmitForm title="Check" icon={Icon.MagnifyingGlass} onSubmit={handleSubmit} />
@@ -54,7 +57,7 @@ export default function Command() {
         </ActionPanel>
       }
     >
-      <Form.TextField id="instanceName" title="Instance Name" placeholder="e.g. my-business" autoFocus />
+      <InstanceDropdown instances={instances} isLoading={loadingInstances} />
       <Form.TextArea id="numbers" title="Numbers" placeholder="One per line or comma-separated" />
       {result ? <Form.TextArea id="result" title="Result (JSON)" value={result} enableMarkdown={false} /> : null}
     </Form>

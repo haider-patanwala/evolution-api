@@ -2,6 +2,8 @@ import { Action, ActionPanel, Form, Icon, Toast, showToast, open } from "@raycas
 import { useState } from "react";
 import { sendMedia } from "./lib/api";
 import { usePreferencesCheck } from "./lib/usePreferencesCheck";
+import { useInstances } from "./lib/useInstances";
+import { InstanceDropdown } from "./components/InstanceDropdown";
 import { readFileSync } from "fs";
 
 type Values = {
@@ -13,6 +15,7 @@ type Values = {
 
 export default function Command() {
   const { isValid, isChecking } = usePreferencesCheck();
+  const { instances, isLoading: loadingInstances } = useInstances(isValid);
   const [isLoading, setIsLoading] = useState(false);
 
   if (isChecking) return <Form isLoading={true} />;
@@ -49,10 +52,10 @@ export default function Command() {
   return (
     <Form
       navigationTitle="Send Media"
-      isLoading={isLoading}
+      isLoading={isLoading || loadingInstances}
       actions={
         <ActionPanel>
-          <Action.SubmitForm title="Send" icon={Icon.Paperplane} onSubmit={handleSubmit} />
+          <Action.SubmitForm title="Send" icon={Icon.Airplane} onSubmit={handleSubmit} />
           <Action
             title="Open File Picker"
             icon={Icon.Finder}
@@ -62,7 +65,7 @@ export default function Command() {
         </ActionPanel>
       }
     >
-      <Form.TextField id="instanceName" title="Instance Name" placeholder="e.g. my-business" autoFocus />
+      <InstanceDropdown instances={instances} isLoading={loadingInstances} />
       <Form.TextField id="number" title="Recipient Number" placeholder="e.g. 55999999999" />
       <Form.FilePicker id="filePath" title="Media File" allowMultipleSelection={false} />
       <Form.TextField id="caption" title="Caption (optional)" placeholder="Media caption" />
