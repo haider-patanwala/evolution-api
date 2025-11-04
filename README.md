@@ -1,4 +1,4 @@
-# Evolution API
+# Evolution API - Raycast Extension
 
 This extension lets you interact with evolution API and helps you in WhatApp automation
 
@@ -15,6 +15,7 @@ docker run -d \
 ```
 
 2. In Raycast preferences for this extension, set:
+
 - **Evolution API Base URL**: `http://localhost:8080` (or your server URL)
 - **API Key**: The value you set in `AUTHENTICATION_API_KEY`
 
@@ -25,6 +26,7 @@ Docs: [Introduction](https://doc.evolution-api.com/v1/en/get-started/introductio
 ### Authentication
 
 This extension uses a custom **API Key header** for authentication:
+
 - Header: `apikey: YOUR_API_KEY`
 - The API key is sent with every request automatically
 
@@ -37,9 +39,11 @@ All commands automatically verify that your Evolution API settings are configure
 ## Commands
 
 ### Configuration
+
 - **Settings & Status**: View current configuration, validate settings, and quick access to Evolution API docs, Swagger UI, and Manager UI.
 
 ### Instance Management
+
 - **Create Instance**: Create a new WhatsApp instance with configurable integration type (Baileys, Business, or Evolution).
 - **Manage Instances**: Comprehensive instance management with:
   - List view showing all instances with status indicators
@@ -54,6 +58,7 @@ All commands automatically verify that your Evolution API settings are configure
   - Real-time refresh capability
 
 ### Messaging
+
 - **Send Message**: Send a single text message to a recipient.
 - **Send Bulk Messages**: Send text messages to multiple recipients (comma or newline separated) with:
   - **Optional pre-send validation** - Automatically validate and skip invalid numbers before sending
@@ -71,6 +76,7 @@ All commands automatically verify that your Evolution API settings are configure
 - **Send Interactive List**: Send interactive list messages with sections and rows.
 
 ### Utilities
+
 - **Check WhatsApp Numbers**: Verify which numbers from a list are registered on WhatsApp (returns raw JSON).
 - **Validate WhatsApp Numbers**: Enhanced validation tool that checks multiple numbers and displays valid/invalid results separately with:
   - **Automatic duplicate removal** - Filters out duplicate numbers before validation
@@ -97,6 +103,7 @@ All commands automatically verify that your Evolution API settings are configure
 ## API Coverage
 
 This extension implements all major Evolution API endpoints from the OpenAPI specification:
+
 - Instance management (create, fetch, connect, restart, logout, delete, presence)
 - Text messaging (single and bulk)
 - Media messaging (files, audio, video, images, documents)

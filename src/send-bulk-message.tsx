@@ -30,7 +30,6 @@ export default function Command() {
   const handleSubmit = useCallback(async (values: Values) => {
     // Prevent multiple simultaneous submissions
     if (isProcessingRef.current) {
-      console.log("Already processing, ignoring duplicate submission");
       return;
     }
 
@@ -53,10 +52,6 @@ export default function Command() {
       const uniqueNumbers = Array.from(new Set(numbers));
       const duplicateCount = numbers.length - uniqueNumbers.length;
       numbers = uniqueNumbers;
-
-      if (duplicateCount > 0) {
-        console.log(`Removed ${duplicateCount} duplicate number(s)`);
-      }
 
       const lines: string[] = [];
       let success = 0;
@@ -93,7 +88,6 @@ export default function Command() {
           validatedNumbers = validNumbers;
 
           if (invalidNumbers.length > 0) {
-            console.log(`Skipped ${invalidNumbers.length} invalid number(s):`, invalidNumbers.join(", "));
             await showToast({
               style: Toast.Style.Animated,
               title: "Validation complete",
@@ -112,7 +106,6 @@ export default function Command() {
             return;
           }
         } catch (validationError) {
-          console.error("Validation failed:", validationError);
           await showToast({
             style: Toast.Style.Failure,
             title: "Validation failed",
@@ -141,12 +134,10 @@ export default function Command() {
           });
           success += 1;
           lines.push(`${num},OK`);
-          console.log(`Message ${i + 1}/${validatedNumbers.length} sent to ${num}`);
         } catch (e) {
           failed += 1;
           const msg = (e as { message?: string })?.message || "ERROR";
           lines.push(`${num},ERROR,${msg.replaceAll(",", " ")}`);
-          console.log(`Message ${i + 1}/${validatedNumbers.length} failed for ${num}: ${msg}`);
         }
         if (delay > 0 && i < validatedNumbers.length - 1) {
           await new Promise((r) => setTimeout(r, delay));
