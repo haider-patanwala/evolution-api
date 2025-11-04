@@ -9,6 +9,7 @@ type InstanceDropdownProps = {
   placeholder?: string;
   autoFocus?: boolean;
   storeValue?: boolean;
+  info?: string;
 };
 
 export function InstanceDropdown({
@@ -19,9 +20,10 @@ export function InstanceDropdown({
   placeholder = "Select an instance",
   autoFocus = true,
   storeValue = true,
+  info,
 }: InstanceDropdownProps) {
   return (
-    <Form.Dropdown id={id} title={title} placeholder={placeholder} autoFocus={autoFocus} storeValue={storeValue}>
+    <Form.Dropdown id={id} title={title} placeholder={placeholder} autoFocus={autoFocus} storeValue={storeValue} info={info}>
       {instances.length === 0 && !isLoading ? (
         <Form.Dropdown.Item value="" title="No instances available" icon={Icon.XMarkCircle} />
       ) : null}

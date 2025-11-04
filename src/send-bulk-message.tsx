@@ -198,7 +198,11 @@ export default function Command() {
         </ActionPanel>
       }
     >
-      <InstanceDropdown instances={instances} isLoading={loadingInstances} />
+      <InstanceDropdown
+        instances={instances}
+        isLoading={loadingInstances}
+        info="No instance? Search for 'Create Instance' or 'Manage Instances' in Raycast"
+      />
       <Form.TextArea
         id="numbers"
         title="Numbers"
