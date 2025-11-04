@@ -68,10 +68,25 @@ export async function fetchInstances(params?: { instanceName?: string; instanceI
   });
 }
 
-export async function sendTextMessage(options: { instanceName: string; number: string; text: string }) {
+export async function sendTextMessage(options: {
+  instanceName: string;
+  number: string;
+  text: string;
+  linkPreview?: boolean;
+}) {
+  const body: Record<string, unknown> = {
+    number: options.number,
+    text: options.text,
+  };
+
+  // Add optional fields if provided
+  if (options.linkPreview !== undefined) {
+    body.linkPreview = options.linkPreview;
+  }
+
   return apiRequest(`/message/sendText/${options.instanceName}`, {
     method: "POST",
-    body: JSON.stringify({ number: options.number, text: options.text }),
+    body: JSON.stringify(body),
   });
 }
 

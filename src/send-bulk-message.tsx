@@ -10,6 +10,7 @@ type Values = {
   numbers: string; // comma or newline separated
   text: string;
   delayMs?: string;
+  linkPreview: boolean;
 };
 
 export default function Command() {
@@ -48,7 +49,12 @@ export default function Command() {
       for (let i = 0; i < numbers.length; i++) {
         const num = numbers[i];
         try {
-          await sendTextMessage({ instanceName: values.instanceName, number: num, text: values.text });
+          await sendTextMessage({
+            instanceName: values.instanceName,
+            number: num,
+            text: values.text,
+            linkPreview: values.linkPreview,
+          });
           success += 1;
           lines.push(`${num},OK`);
           console.log(`Message ${i + 1}/${numbers.length} sent to ${num}`);
@@ -105,6 +111,18 @@ export default function Command() {
       <Form.TextArea id="numbers" title="Numbers" placeholder="One per line or comma-separated" />
       <Form.TextArea id="text" title="Message" placeholder="Type your message" />
       <Form.TextField id="delayMs" title="Delay (ms) between messages" placeholder="e.g. 800" defaultValue="1000" />
+
+      <Form.Separator />
+      <Form.Description text="Additional Options" />
+
+      <Form.Checkbox
+        id="linkPreview"
+        label="Enable Link Preview"
+        info="Show preview for URLs in the message"
+        defaultValue={false}
+        storeValue
+      />
+
       {report ? <Form.TextArea id="report" title="Report" value={report} enableMarkdown={false} /> : null}
     </Form>
   );
