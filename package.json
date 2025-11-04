@@ -5,12 +5,7 @@
   "version": "1.0.0",
   "description": "Comprehensive Raycast extension for Evolution API - Self-host WhatsApp automation with instance management, bulk messaging, media sending, and number validation",
   "icon": "extension-icon.png",
-  "author": "Haider Patanwala",
-  "contributors": [
-    "Haider Patanwala"
-  ],
-  "owner": "haider-patanwala",
-  "access": "public",
+  "author": "haider_patan",
   "platforms": [
     "macOS",
     "Windows"

@@ -16,4 +16,3 @@ export function usePreferencesCheck() {
 
   return { isValid, isChecking };
 }
-

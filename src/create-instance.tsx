@@ -1,14 +1,4 @@
-import {
-  Action,
-  ActionPanel,
-  Form,
-  Icon,
-  Toast,
-  closeMainWindow,
-  open,
-  showHUD,
-  showToast,
-} from "@raycast/api";
+import { Action, ActionPanel, Form, Icon, Toast, closeMainWindow, open, showHUD, showToast } from "@raycast/api";
 import { useState } from "react";
 import { CreateInstancePayload, createInstance } from "./lib/api";
 import { usePreferencesCheck } from "./lib/usePreferencesCheck";

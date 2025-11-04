@@ -23,7 +23,14 @@ export function InstanceDropdown({
   info,
 }: InstanceDropdownProps) {
   return (
-    <Form.Dropdown id={id} title={title} placeholder={placeholder} autoFocus={autoFocus} storeValue={storeValue} info={info}>
+    <Form.Dropdown
+      id={id}
+      title={title}
+      placeholder={placeholder}
+      autoFocus={autoFocus}
+      storeValue={storeValue}
+      info={info}
+    >
       {instances.length === 0 && !isLoading ? (
         <Form.Dropdown.Item value="" title="No instances available" icon={Icon.XMarkCircle} />
       ) : null}
@@ -44,4 +51,3 @@ export function InstanceDropdown({
     </Form.Dropdown>
   );
 }
-

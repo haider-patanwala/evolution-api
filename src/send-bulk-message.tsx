@@ -50,7 +50,6 @@ export default function Command() {
 
       // Remove duplicates
       const uniqueNumbers = Array.from(new Set(numbers));
-      const duplicateCount = numbers.length - uniqueNumbers.length;
       numbers = uniqueNumbers;
 
       const lines: string[] = [];
@@ -105,7 +104,7 @@ export default function Command() {
             });
             return;
           }
-        } catch (validationError) {
+        } catch {
           await showToast({
             style: Toast.Style.Failure,
             title: "Validation failed",

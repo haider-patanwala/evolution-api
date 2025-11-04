@@ -38,7 +38,7 @@ export function validatePreferences(): { isValid: boolean; error?: string } {
     }
 
     return { isValid: true };
-  } catch (error) {
+  } catch {
     return {
       isValid: false,
       error: "Failed to load preferences",
@@ -64,4 +64,3 @@ export async function checkPreferencesOrPrompt(): Promise<boolean> {
 
   return true;
 }
-

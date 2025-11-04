@@ -142,10 +142,7 @@ export default function Command() {
 
   if (result) {
     return (
-      <List
-        navigationTitle="WhatsApp Number Validation Results"
-        searchBarPlaceholder="Search numbers..."
-      >
+      <List navigationTitle="WhatsApp Number Validation Results" searchBarPlaceholder="Search numbers...">
         <List.Section title="Summary" subtitle={`${result.valid.length + result.invalid.length} numbers checked`}>
           <List.Item
             title="Valid Numbers"
@@ -318,4 +315,3 @@ export default function Command() {
     </Form>
   );
 }
-
