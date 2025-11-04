@@ -116,6 +116,13 @@
       "mode": "view"
     },
     {
+      "name": "validate-whatsapp-numbers",
+      "title": "Validate WhatsApp Numbers",
+      "subtitle": "Bulk number validation - Evolution API",
+      "description": "Validate multiple numbers and see valid/invalid results separately",
+      "mode": "view"
+    },
+    {
       "name": "set-presence",
       "title": "Set Presence",
       "subtitle": "Set online status - Evolution API",

@@ -66,7 +66,19 @@ All commands automatically verify that your Evolution API settings are configure
 - **Send Interactive List**: Send interactive list messages with sections and rows.
 
 ### Utilities
-- **Check WhatsApp Numbers**: Verify which numbers from a list are registered on WhatsApp.
+- **Check WhatsApp Numbers**: Verify which numbers from a list are registered on WhatsApp (returns raw JSON).
+- **Validate WhatsApp Numbers**: Enhanced validation tool that checks multiple numbers and displays valid/invalid results separately with:
+  - **Automatic duplicate removal** - Filters out duplicate numbers before validation
+  - Visual summary with count of valid vs invalid numbers
+  - Separate sections for valid and invalid numbers with detailed list view
+  - Color-coded status indicators (green for valid, red for invalid)
+  - **Quick copy actions**:
+    - Copy all valid numbers only (`⌘V`)
+    - Copy all invalid numbers only (`⌘I`)
+    - Copy full formatted report (`⌘A`)
+    - Copy individual numbers (`⌘C`)
+  - Search functionality to filter results
+  - Toast notifications showing duplicate count and validation results
 - **Set Presence**: Set instance online status (available/unavailable).
 
 ## Features
